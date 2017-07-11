@@ -169,6 +169,7 @@ int main(int argc, const char * argv[]) {
     // load textures (we now use a utility function to keep the code more organized)
     // -----------------------------------------------------------------------------
     unsigned int diffuseMap = loadTexture("/Users/sofiawu/GitHub/OpenGL/images/container2.png");
+    unsigned int specularMap = loadTexture("/Users/sofiawu/GitHub/OpenGL/images/container2_specular.png");
     
     //#########################################################
     
@@ -179,6 +180,7 @@ int main(int argc, const char * argv[]) {
     lightingShader.use();
     lightingShader.setVec3("light.position", lightPos);
     lightingShader.setInt("material.diffuse", 0);
+    lightingShader.setInt("material.specular", 1);
     
     // light properties
     lightingShader.setVec3("light.ambient", 0.2f, 0.2f, 0.2f);
@@ -192,7 +194,10 @@ int main(int argc, const char * argv[]) {
     // bind diffuse map
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, diffuseMap);
-    
+    // bind specular map
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, specularMap);
+
     // render loop
     // -----------
     while (!glfwWindowShouldClose(window))
