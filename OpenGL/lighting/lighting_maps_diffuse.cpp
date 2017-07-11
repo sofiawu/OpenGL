@@ -169,7 +169,9 @@ int main(int argc, const char * argv[]) {
     // load textures (we now use a utility function to keep the code more organized)
     // -----------------------------------------------------------------------------
     unsigned int diffuseMap = loadTexture("/Users/sofiawu/GitHub/OpenGL/images/container2.png");
-    unsigned int specularMap = loadTexture("/Users/sofiawu/GitHub/OpenGL/images/container2_specular.png");
+    unsigned int specularMap = loadTexture("/Users/sofiawu/GitHub/OpenGL/images/lighting_maps_specular_color.png");
+    unsigned int emissionMap = loadTexture("/Users/sofiawu/GitHub/OpenGL/images/matrix.jpg");
+
     
     //#########################################################
     
@@ -178,9 +180,11 @@ int main(int argc, const char * argv[]) {
     
     // be sure to activate shader when setting uniforms/drawing objects
     lightingShader.use();
+    
     lightingShader.setVec3("light.position", lightPos);
     lightingShader.setInt("material.diffuse", 0);
     lightingShader.setInt("material.specular", 1);
+    lightingShader.setInt("material.emission", 2);
     
     // light properties
     lightingShader.setVec3("light.ambient", 0.2f, 0.2f, 0.2f);
@@ -190,13 +194,7 @@ int main(int argc, const char * argv[]) {
     // material properties
     lightingShader.setVec3("material.specular", 0.5f, 0.5f, 0.5f);
     lightingShader.setFloat("material.shininess", 64.0f);
-    
-    // bind diffuse map
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, diffuseMap);
-    // bind specular map
-    glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D, specularMap);
+
 
     // render loop
     // -----------
@@ -233,6 +231,16 @@ int main(int argc, const char * argv[]) {
         glm::mat4 model;
         model = glm::rotate(model, glm::radians(40.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         lightingShader.setMat4("model", model);
+        
+        // bind diffuse map
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, diffuseMap);
+        // bind specular map
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, specularMap);
+        // bind emission map
+        glActiveTexture(GL_TEXTURE2);
+        glBindTexture(GL_TEXTURE_2D, emissionMap);
         
         // render the cube
         glBindVertexArray(cubeVAO);
