@@ -175,6 +175,7 @@ int main(int argc, const char * argv[]) {
     lightingShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
     lightingShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
     lightingShader.setVec3("lightPos", lightPos.x, lightPos.y, lightPos.z);
+    lightingShader.setVec3("viewPos", camera.Position);
     
     // render loop
     // -----------
